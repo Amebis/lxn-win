@@ -768,47 +768,19 @@ func (obj *ITextDocument) Release() uint32 {
 }
 
 func (obj *ITextDocument) GetTypeInfoCount(pctinfo *uint32) HRESULT {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.GetTypeInfoCount, 2,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(unsafe.Pointer(pctinfo)),
-		0)
-	return HRESULT(ret)
+	return (*IDispatch)(unsafe.Pointer(obj)).GetTypeInfoCount(pctinfo)
 }
 
 func (obj *ITextDocument) GetTypeInfo(iTInfo uint32, lcid LCID, ppTInfo **ITypeInfo) HRESULT {
-	ret, _, _ := syscall.Syscall6(obj.LpVtbl.GetTypeInfo, 4,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(iTInfo),
-		uintptr(lcid),
-		uintptr(unsafe.Pointer(ppTInfo)),
-		0,
-		0)
-	return HRESULT(ret)
+	return (*IDispatch)(unsafe.Pointer(obj)).GetTypeInfo(iTInfo, lcid, ppTInfo)
 }
 
 func (obj *ITextDocument) GetIDsOfNames(riid REFIID, rgszNames **uint16, cNames uint32, lcid LCID, rgDispId *DISPID) HRESULT {
-	ret, _, _ := syscall.Syscall6(obj.LpVtbl.GetIDsOfNames, 6,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(unsafe.Pointer(riid)),
-		uintptr(unsafe.Pointer(rgszNames)),
-		uintptr(cNames),
-		uintptr(lcid),
-		uintptr(unsafe.Pointer(rgDispId)))
-	return HRESULT(ret)
+	return (*IDispatch)(unsafe.Pointer(obj)).GetIDsOfNames(riid, rgszNames, cNames, lcid, rgDispId)
 }
 
 func (obj *ITextDocument) Invoke(dispIdMember DISPID, riid REFIID, lcid LCID, wFlags uint16, pDispParams *DISPPARAMS, pVarResult *VARIANT, pExcepInfo *EXCEPINFO, puArgErr *uint32) HRESULT {
-	ret, _, _ := syscall.Syscall9(obj.LpVtbl.Invoke, 9,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(dispIdMember),
-		uintptr(unsafe.Pointer(riid)),
-		uintptr(lcid),
-		uintptr(wFlags),
-		uintptr(unsafe.Pointer(pDispParams)),
-		uintptr(unsafe.Pointer(pVarResult)),
-		uintptr(unsafe.Pointer(pExcepInfo)),
-		uintptr(unsafe.Pointer(puArgErr)))
-	return HRESULT(ret)
+	return (*IDispatch)(unsafe.Pointer(obj)).Invoke(dispIdMember, riid, lcid, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr)
 }
 
 func (obj *ITextDocument) GetName(pName **uint16 /*BSTR*/) HRESULT {

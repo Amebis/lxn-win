@@ -88,6 +88,50 @@ type IDispatch struct {
 	LpVtbl *IDispatchVtbl
 }
 
+func (obj *IDispatch) GetTypeInfoCount(pctinfo *uint32) HRESULT {
+	ret, _, _ := syscall.Syscall(obj.LpVtbl.GetTypeInfoCount, 2,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(unsafe.Pointer(pctinfo)),
+		0)
+	return HRESULT(ret)
+}
+
+func (obj *IDispatch) GetTypeInfo(iTInfo uint32, lcid LCID, ppTInfo **ITypeInfo) HRESULT {
+	ret, _, _ := syscall.Syscall6(obj.LpVtbl.GetTypeInfo, 4,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(iTInfo),
+		uintptr(lcid),
+		uintptr(unsafe.Pointer(ppTInfo)),
+		0,
+		0)
+	return HRESULT(ret)
+}
+
+func (obj *IDispatch) GetIDsOfNames(riid REFIID, rgszNames **uint16, cNames uint32, lcid LCID, rgDispId *DISPID) HRESULT {
+	ret, _, _ := syscall.Syscall6(obj.LpVtbl.GetIDsOfNames, 6,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(unsafe.Pointer(riid)),
+		uintptr(unsafe.Pointer(rgszNames)),
+		uintptr(cNames),
+		uintptr(lcid),
+		uintptr(unsafe.Pointer(rgDispId)))
+	return HRESULT(ret)
+}
+
+func (obj *IDispatch) Invoke(dispIdMember DISPID, riid REFIID, lcid LCID, wFlags uint16, pDispParams *DISPPARAMS, pVarResult *VARIANT, pExcepInfo *EXCEPINFO, puArgErr *uint32) HRESULT {
+	ret, _, _ := syscall.Syscall9(obj.LpVtbl.Invoke, 9,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(dispIdMember),
+		uintptr(unsafe.Pointer(riid)),
+		uintptr(lcid),
+		uintptr(wFlags),
+		uintptr(unsafe.Pointer(pDispParams)),
+		uintptr(unsafe.Pointer(pVarResult)),
+		uintptr(unsafe.Pointer(pExcepInfo)),
+		uintptr(unsafe.Pointer(puArgErr)))
+	return HRESULT(ret)
+}
+
 type VARTYPE uint16
 
 const (
