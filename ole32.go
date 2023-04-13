@@ -393,6 +393,30 @@ type IUnknown struct {
 	LpVtbl *IUnknownVtbl
 }
 
+func (obj *IUnknown) QueryInterface(riid REFIID, ppvObject *unsafe.Pointer) HRESULT {
+	ret, _, _ := syscall.Syscall(obj.LpVtbl.QueryInterface, 3,
+		uintptr(unsafe.Pointer(obj)),
+		uintptr(unsafe.Pointer(riid)),
+		uintptr(unsafe.Pointer(ppvObject)))
+	return HRESULT(ret)
+}
+
+func (obj *IUnknown) AddRef() uint32 {
+	ret, _, _ := syscall.Syscall(obj.LpVtbl.AddRef, 1,
+		uintptr(unsafe.Pointer(obj)),
+		0,
+		0)
+	return uint32(ret)
+}
+
+func (obj *IUnknown) Release() uint32 {
+	ret, _, _ := syscall.Syscall(obj.LpVtbl.Release, 1,
+		uintptr(unsafe.Pointer(obj)),
+		0,
+		0)
+	return uint32(ret)
+}
+
 type OLEINPLACEFRAMEINFO struct {
 	Cb            uint32
 	FMDIApp       BOOL
