@@ -49,27 +49,15 @@ type IRichEditOle struct {
 }
 
 func (obj *IRichEditOle) QueryInterface(riid REFIID, ppvObject *unsafe.Pointer) HRESULT {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.QueryInterface, 3,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(unsafe.Pointer(riid)),
-		uintptr(unsafe.Pointer(ppvObject)))
-	return HRESULT(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).QueryInterface(riid, ppvObject)
 }
 
 func (obj *IRichEditOle) AddRef() uint32 {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.AddRef, 1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0)
-	return uint32(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).AddRef()
 }
 
 func (obj *IRichEditOle) Release() uint32 {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.Release, 1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0)
-	return uint32(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).Release()
 }
 
 func (obj *IRichEditOle) GetClientSite(lplpolesite **IOleClientSite) HRESULT {

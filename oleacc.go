@@ -195,27 +195,15 @@ type IAccPropServices struct {
 }
 
 func (obj *IAccPropServices) QueryInterface(riid REFIID, ppvObject *unsafe.Pointer) HRESULT {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.QueryInterface, 3,
-		uintptr(unsafe.Pointer(obj)),
-		uintptr(unsafe.Pointer(riid)),
-		uintptr(unsafe.Pointer(ppvObject)))
-	return HRESULT(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).QueryInterface(riid, ppvObject)
 }
 
 func (obj *IAccPropServices) AddRef() uint32 {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.AddRef, 1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0)
-	return uint32(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).AddRef()
 }
 
 func (obj *IAccPropServices) Release() uint32 {
-	ret, _, _ := syscall.Syscall(obj.LpVtbl.Release, 1,
-		uintptr(unsafe.Pointer(obj)),
-		0,
-		0)
-	return uint32(ret)
+	return (*IUnknown)(unsafe.Pointer(obj)).Release()
 }
 
 // SetPropServer specifies a callback object to be used to annotate an array of properties for the accessible element. You can also specify whether the annotation is to be applied to this accessible element or to the element and its children. This method is used for server annotation.
